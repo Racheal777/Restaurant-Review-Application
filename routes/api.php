@@ -27,3 +27,5 @@ Route::post('users/login', [UserController::class, 'login']);
 
 
 Route::apiResource('diners', RestaurantController::class);
+
+Route::delete('diners/delete/{id}', [RestaurantController::class, 'destroy']);

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Traits\ImageUploadTrait;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\RestaurantResource;
+use App\Http\Resources\UserResource;
 
 class RestaurantController extends Controller
 
@@ -85,8 +86,13 @@ class RestaurantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Restaurant $restaurant, $id)
     {
-        //
+        //delete all restaurant
+         $restaurant = Restaurant::find($id);
+
+         $restaurant->delete();
+
+         //return new UserResource($restaurant);
     }
 }
