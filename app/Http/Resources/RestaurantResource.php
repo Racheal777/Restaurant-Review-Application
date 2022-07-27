@@ -25,7 +25,7 @@ class RestaurantResource extends JsonResource
             'profile image' => $this->profileimage,
            // 'images' => json_decode($this->images),
             'imagesss' => $this->images,
-            'images type' => gettype($this->images) 
+            //'images type' => gettype($this->images) 
         ];
     }
 }

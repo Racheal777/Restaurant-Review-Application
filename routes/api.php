@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,12 @@ Route::post('users/signup', [UserController::class, 'register']);
 Route::post('users/login', [UserController::class, 'login']);
 
 
+Route::get('user', [UserController::class, 'getUserwithReviews']);
+
+
 Route::apiResource('diners', RestaurantController::class);
 
 Route::delete('diners/delete/{id}', [RestaurantController::class, 'destroy']);
+
+//review route
+Route::apiResource('reviews', ReviewController::class);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserCollection;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
@@ -46,7 +47,7 @@ class UserController extends Controller
         //if user attempt to login, and their details matches with what is in the db
         //create a token for them
         if(auth()->attempt($loginDetails)){
-            $user = auth()->user;
+            $user = auth()->user();
             $token = auth()->user()->createToken($user->username);
 
             return response()->json([
@@ -58,5 +59,23 @@ class UserController extends Controller
                 'message' => 'Incorrect Credentials',
            ]);
         }
+    }
+
+
+
+    //fetch a particular user will all their reviews
+    public function getUserwithReviews(User $user){
+       // $user = User::all();
+       // $user = auth()->user();
+       $loggedinUser = auth('api')->user();
+
+       //return $loggedinUser;
+
+       if($loggedinUser){
+        //$user = User::find($loggedinUser->id);
+        return new UserResource($loggedinUser);
+       }
+
+        
     }
 }
