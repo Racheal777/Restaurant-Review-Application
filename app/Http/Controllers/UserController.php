@@ -6,6 +6,7 @@ use App\Http\Resources\UserCollection;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -66,15 +67,28 @@ class UserController extends Controller
     //fetch a particular user will all their reviews
     public function getUserwithReviews(User $user){
        // $user = User::all();
-       // $user = auth()->user();
-       $loggedinUser = auth('api')->user();
+        //$users = auth('api')->user();
+
+    //    $user = Auth::user();
+    //    //$user = Auth::check();
+    //    if($user){
+    //     return $user;
+    //    }else{
+    //     return 'user not authenticated';
+    //    }
+
+    //check the authenticated user and return all their resources
+        $user = Auth::user();
+
+    return new UserResource($user);
+      // $loggedinUser = auth('api')->user();
 
        //return $loggedinUser;
 
-       if($loggedinUser){
-        //$user = User::find($loggedinUser->id);
-        return new UserResource($loggedinUser);
-       }
+    //    if($loggedinUser){
+    //     //$user = User::find($loggedinUser->id);
+    //     return new UserResource($loggedinUser);
+    //    }
 
         
     }

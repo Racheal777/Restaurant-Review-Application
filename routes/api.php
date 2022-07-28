@@ -27,7 +27,7 @@ Route::post('users/signup', [UserController::class, 'register']);
 Route::post('users/login', [UserController::class, 'login']);
 
 
-Route::get('user', [UserController::class, 'getUserwithReviews']);
+Route::get('user', [UserController::class, 'getUserwithReviews'])->middleware('auth:api');
 
 
 Route::apiResource('diners', RestaurantController::class);
@@ -35,4 +35,4 @@ Route::apiResource('diners', RestaurantController::class);
 Route::delete('diners/delete/{id}', [RestaurantController::class, 'destroy']);
 
 //review route
-Route::apiResource('reviews', ReviewController::class);
+Route::apiResource('reviews', ReviewController::class)->middleware('auth:api');
