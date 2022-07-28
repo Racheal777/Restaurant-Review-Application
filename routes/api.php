@@ -30,6 +30,8 @@ Route::post('users/login', [UserController::class, 'login']);
 //add a restaurant
 Route::apiResource('diners', RestaurantController::class);
 
+Route::get('diner/{id}', [RestaurantController::class, "averageRatings"]);
+
 
 //Route::delete('diners/delete/{id}', [RestaurantController::class, 'destroy']);
 

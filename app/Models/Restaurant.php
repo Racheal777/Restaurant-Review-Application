@@ -15,6 +15,7 @@ class Restaurant extends Model
         'name',
         'about',
         'location',
+        'average_ratings',
         'images',
         'profileimage',
 

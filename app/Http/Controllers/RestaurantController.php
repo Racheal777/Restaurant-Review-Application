@@ -9,6 +9,7 @@ use App\Traits\ImageUploadTrait;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\RestaurantResource;
 use App\Http\Resources\UserResource;
+use App\Models\Review;
 
 class RestaurantController extends Controller
 
@@ -49,8 +50,6 @@ class RestaurantController extends Controller
         $diner->profileimage = Storage::url($this->UploadImage($request));
         $diner->images = explode(' ', $this->multipleUploads($request)) ;
 
-       
-
         $diner->save();
 
         return new RestaurantResource($diner);
@@ -63,9 +62,13 @@ class RestaurantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Restaurant $restaurant, $id)
     {
-        //
+        //find one restaurant with their reviews
+        $restaurant= Restaurant::find($id);
+
+        return new RestaurantResource($restaurant);
+
     }
 
     /**
@@ -75,9 +78,21 @@ class RestaurantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Restaurant $restaurant, $id)
     {
-        //
+        //update a restaurant
+       // $diner = 
+       $restaurant = Restaurant::find($id);
+        $restaurant->name = $request->input('name');
+        $restaurant->about = $request->input('about');
+        $restaurant->location = $request->input('location');
+        // $restaurant->profileimage = Storage::url($this->UploadImage($request));
+        // $restaurant->images = explode(' ', $this->multipleUploads($request)) ;
+
+        $restaurant->save();
+
+        return new RestaurantResource($restaurant);
+
     }
 
     /**
@@ -94,5 +109,31 @@ class RestaurantController extends Controller
          $restaurant->delete();
 
          //return new UserResource($restaurant);
+    }
+
+    public function averageRatings(Restaurant $restaurant, Review $review, $id){
+
+      
+
+        $restaurant = Restaurant::find($id);
+
+        $restaurantRatings = $restaurant->reviews()->pluck('ratings')->toArray();
+
+        $total = array_sum($restaurantRatings);
+
+        $average = $total/count($restaurantRatings);
+
+        $roundedNum = round($average, 1);
+
+        return $roundedNum;
+
+        $restaurant->averageRatings = $roundedNum;
+
+        $restaurant->save();
+
+        return $restaurantRatings;
+
+        return new RestaurantResource($restaurant);
+
     }
 }
