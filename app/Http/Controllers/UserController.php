@@ -29,10 +29,12 @@ class UserController extends Controller
         //create a token for the user
         $token = $user->createToken($user->name);
         $object = $token->accessToken;
+       
 
         return response()->json([
             'user' => new UserResource($user),
-            'Access Token' => $object
+            'Access Token' => $object,
+           
         ]);
     }
 
@@ -51,9 +53,14 @@ class UserController extends Controller
             $user = auth()->user();
             $token = auth()->user()->createToken($user->username);
 
+            // $csrftoken = $request->session()->token();
+ 
+            // $csrftoken = csrf_token();
+
             return response()->json([
                 'user' => new UserResource($user),
-                'access token' => $token->accessToken
+                'access token' => $token->accessToken,
+                //'csrf' => $csrftoken
             ]);
         }else{
             return response()->json([
@@ -78,8 +85,7 @@ class UserController extends Controller
     //    }
 
     //check the authenticated user and return all their resources
-        $user = Auth::user();
-
+    $user = Auth::user();
     return new UserResource($user);
       // $loggedinUser = auth('api')->user();
 

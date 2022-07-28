@@ -2,10 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\ReviewCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class FavoriteResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,18 +14,12 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-
-        $review = new ReviewCollection($this->reviews);
-        $favorite = new FavoriteCollection($this->favorites);
+        //$restaurant = new RestaurantResource($this->restaurant);
         return 
-
         [
             'id' => $this->id,
-            'name' => $this->name,
-            'username' => $this->username,
-            'reviews' => $review,
-            "Favorites" => $favorite
-           // 'restaurant' => $this->reviews->restaurant
+           // 'user' => $this->user,
+            'restaurant'=> $this->restaurant
         ];
     }
 }

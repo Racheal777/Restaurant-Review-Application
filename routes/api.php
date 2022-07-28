@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
@@ -26,13 +27,23 @@ Route::post('users/signup', [UserController::class, 'register']);
 
 Route::post('users/login', [UserController::class, 'login']);
 
-
-Route::get('user', [UserController::class, 'getUserwithReviews'])->middleware('auth:api');
-
-
+//add a restaurant
 Route::apiResource('diners', RestaurantController::class);
 
-Route::delete('diners/delete/{id}', [RestaurantController::class, 'destroy']);
+
+//Route::delete('diners/delete/{id}', [RestaurantController::class, 'destroy']);
+
+
+Route::middleware('auth:api')->group(function(){
 
 //review route
-Route::apiResource('reviews', ReviewController::class)->middleware('auth:api');
+Route::apiResource('reviews', ReviewController::class);
+
+//favorites route
+Route::apiResource('favorites', FavoriteController::class);
+
+//user route
+Route::get('user', [UserController::class, 'getUserwithReviews']);
+
+
+});

@@ -86,10 +86,10 @@ class RestaurantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Restaurant $restaurant, $id)
+    public function destroy(Restaurant $restaurant)
     {
         //delete all restaurant
-         $restaurant = Restaurant::find($id);
+        // $restaurant = Restaurant::find($id);
 
          $restaurant->delete();
 
