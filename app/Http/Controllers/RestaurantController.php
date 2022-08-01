@@ -125,13 +125,14 @@ class RestaurantController extends Controller
 
         $roundedNum = round($average, 1);
 
-        return $roundedNum;
+       // return $roundedNum;
 
-        $restaurant->averageRatings = $roundedNum;
+        $restaurant->average_ratings = $roundedNum;
 
         $restaurant->save();
 
-        return $restaurantRatings;
+
+        //return $restaurantRatings;
 
         return new RestaurantResource($restaurant);
 
