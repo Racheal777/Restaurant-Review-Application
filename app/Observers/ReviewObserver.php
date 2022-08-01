@@ -7,33 +7,7 @@ use App\Models\Restaurant;
 use App\Models\Review;
 
 class ReviewObserver
-{
-
-    private function averageRatings(Review $review){
-
-        // find the restaurant being reviewed
-        $restaurant = Restaurant::find($review->restaurant_id);
-        
-        //get the reviews of that restaurant and pluck the ratings and change to an array
-        $restaurantRatings = $restaurant->reviews()->pluck('ratings')->toArray();
-
-       // return $restaurantRatings;
-        //calculate the sum of the ratings
-        $total = array_sum($restaurantRatings);
-
-        //divide the sum by the number of items to fund the average
-        $average = $total/count($restaurantRatings);
-
-        //round the total to the neerest decimal
-        $roundedNum = round($average, 1);
-
-        //save the roundedNum to the average rating
-        $restaurant->average_ratings = $roundedNum;
-        $restaurant->save();
-
-       // return new RestaurantResource($restaurant);
-
-    }
+{ 
     /**
      * Handle the Review "created" event.
      *
@@ -91,5 +65,31 @@ class ReviewObserver
     public function forceDeleted(Review $review)
     {
         //
+    }
+
+    private function averageRatings(Review $review){
+
+        // find the restaurant being reviewed
+        $restaurant = Restaurant::find($review->restaurant_id);
+        
+        //get the reviews of that restaurant and pluck the ratings and change to an array
+        $restaurantRatings = $restaurant->reviews()->pluck('ratings')->toArray();
+
+       // return $restaurantRatings;
+        //calculate the sum of the ratings
+        $total = array_sum($restaurantRatings);
+
+        //divide the sum by the number of items to fund the average
+        $average = $total/count($restaurantRatings);
+
+        //round the total to the neerest decimal
+        $roundedNum = round($average, 1);
+
+        //save the roundedNum to the average rating
+        $restaurant->average_ratings = $roundedNum;
+        $restaurant->save();
+
+       // return new RestaurantResource($restaurant);
+
     }
 }
