@@ -19,14 +19,14 @@ class ReviewResource extends JsonResource
     {
 
         //$creator = new UserResource($this->user);
-         $restaurant = new RestaurantResource($this->restaurant);
+         //$restaurant = new RestaurantResource($this->restaurant);
         return 
         [
             'id' => $this->id,
             'comment' => $this->comment,
             'ratings' => $this->ratings,
-           // 'user' => $this->user,
-             'restaurant' => $restaurant
+            'user' => $this->user,
+             'restaurant' => $this->restaurant
         ];
     }
 }

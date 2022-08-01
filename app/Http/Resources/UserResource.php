@@ -16,7 +16,7 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
 
-        $review = new ReviewCollection($this->reviews);
+       // $review = new ReviewCollection($this->reviews);
         $favorite = new FavoriteCollection($this->favorites);
         return 
 
@@ -24,7 +24,7 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'username' => $this->username,
-            'reviews' => $review,
+           // 'reviews' => $review,
             "Favorites" => $favorite
            // 'restaurant' => $this->reviews->restaurant
         ];

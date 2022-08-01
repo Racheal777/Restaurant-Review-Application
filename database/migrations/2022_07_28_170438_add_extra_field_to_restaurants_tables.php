@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('restaurants', function (Blueprint $table) {
             //
-            $table->float('average_ratings')->nullable();
+            $table->float('average_ratings')->default(0);
         });
     }
 

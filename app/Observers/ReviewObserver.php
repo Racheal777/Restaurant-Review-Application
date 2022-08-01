@@ -8,22 +8,12 @@ use App\Models\Review;
 
 class ReviewObserver
 {
-    /**
-     * Handle the Review "created" event.
-     *
-     * @param  \App\Models\Review  $review
-     * @return void
-     */
-    public function created(Review $review)
-    {
-       // find the restaurant
-       $restaurant = Restaurant::find($review->restaurant_id);
-        //$restaurant =$review->restaurant_id ;
 
-        //find the reviewed restaurant
-       // return ;
+    private function averageRatings(Review $review){
 
-       // return $review;
+        // find the restaurant being reviewed
+        $restaurant = Restaurant::find($review->restaurant_id);
+        
         //get the reviews of that restaurant and pluck the ratings and change to an array
         $restaurantRatings = $restaurant->reviews()->pluck('ratings')->toArray();
 
@@ -37,17 +27,23 @@ class ReviewObserver
         //round the total to the neerest decimal
         $roundedNum = round($average, 1);
 
-        //return $roundedNum;
-
-        //$restaurant->averageRatings = $roundedNum;
-
         //save the roundedNum to the average rating
         $restaurant->average_ratings = $roundedNum;
         $restaurant->save();
 
        // return new RestaurantResource($restaurant);
 
-
+    }
+    /**
+     * Handle the Review "created" event.
+     *
+     * @param  \App\Models\Review  $review
+     * @return void
+     */
+    public function created(Review $review)
+    {
+        $this->averageRatings($review);
+      
     }
 
     /**
@@ -56,38 +52,11 @@ class ReviewObserver
      * @param  \App\Models\Review  $review
      * @return void
      */
-    public function updated(Restaurant $restaurant)
+    public function updated(Review $review)
     {
-        //
-         // find the restaurant
-        //$restaurant = Restaurant::find($id);
-
-        //find the reviewed restaurant
+       //once the review get updated, update the average ratings based on the ratings
+       $this->averageRatings($review);
        
-       
-        //get the reviews of that restaurant and pluck the ratings and change to an array
-    //     $restaurantRatings = $restaurant->reviews()->pluck('ratings')->toArray();
-
-    //    // return $restaurantRatings;
-    //     //calculate the sum of the ratings
-    //     $total = array_sum($restaurantRatings);
-
-    //     //divide the sum by the number of items to fund the average
-    //     $average = $total/count($restaurantRatings);
-
-    //     //round the total to the neerest decimal
-    //     $roundedNum = round($average, 1);
-
-    //     //return $roundedNum;
-
-    //     $restaurant->averageRatings = $roundedNum;
-
-    //     //save the roundedNum to the average rating
-    //    $restaurant->average_ratings = $roundedNum;
-    //    // $restaurant->save();
-
-       // return new RestaurantResource($restaurant);
-
     }
 
     /**
@@ -99,6 +68,7 @@ class ReviewObserver
     public function deleted(Review $review)
     {
         //
+        $this->averageRatings($review);
     }
 
     /**

@@ -52,7 +52,7 @@ class RestaurantController extends Controller
 
         $diner->save();
 
-        return new RestaurantResource($diner);
+        return new RestaurantResource($diner->fresh());
 
     }
 

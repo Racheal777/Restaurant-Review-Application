@@ -15,7 +15,7 @@ class RestaurantResource extends JsonResource
     public function toArray($request)
     {
         $images = $this->images;
-
+        // \Log::debug($this);
        
         return [
             'id' => $this->id,

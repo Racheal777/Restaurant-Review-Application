@@ -80,6 +80,7 @@ class ReviewController extends Controller
     public function show($id)
     {
         //
+        
     }
 
     /**
@@ -89,9 +90,17 @@ class ReviewController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Review $review)
     {
         //
+        $review->comment = $request->input('comment');
+        $review->ratings = $request->input('ratings');
+        $review->restaurant_id = $request->input('restaurant_id');
+
+        $review->save();
+
+        return new ReviewResource($review->fresh());
+
     }
 
     /**
@@ -100,8 +109,9 @@ class ReviewController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Review $review)
     {
         //
+        $review = $review->delete();
     }
 }
