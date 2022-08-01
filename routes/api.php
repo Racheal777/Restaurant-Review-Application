@@ -33,6 +33,8 @@ Route::apiResource('diners', RestaurantController::class);
 Route::get('diner/{id}', [RestaurantController::class, "averageRatings"]);
 
 
+//searching
+Route::get('diner', [RestaurantController::class, 'searching']);
 //Route::delete('diners/delete/{id}', [RestaurantController::class, 'destroy']);
 
 

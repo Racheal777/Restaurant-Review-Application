@@ -16,8 +16,12 @@ return new class extends Migration
         Schema::create('restaurants', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('about');
+            $table->string('contact');
+            $table->text('about')->nullable();
+            $table->string('website_url')->nullable();
+            $table->time('working_hours')->nullable();
             $table->string('location');
+            $table->enum('category', ['All', 'Continental', 'Local'])->default('All');
             $table->json('images');
             $table->string('profileimage');
             $table->timestamps();

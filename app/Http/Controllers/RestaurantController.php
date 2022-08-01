@@ -47,6 +47,10 @@ class RestaurantController extends Controller
         $diner->name = $request->input('name');
         $diner->about = $request->input('about');
         $diner->location = $request->input('location');
+        $diner->contact = $request->input('contact');
+        $diner->website_url = $request->input('website_url');
+        $diner->category = $request->input('category');
+        $diner->working_hours = $request->input('working_hours');
         $diner->profileimage = Storage::url($this->UploadImage($request));
         $diner->images = explode(' ', $this->multipleUploads($request)) ;
 
@@ -86,6 +90,10 @@ class RestaurantController extends Controller
         $restaurant->name = $request->input('name');
         $restaurant->about = $request->input('about');
         $restaurant->location = $request->input('location');
+        $restaurant->contact = $request->input('contact');
+        $restaurant->website_url = $request->input('website_url');
+        $restaurant->category = $request->input('category');
+        $restaurant->working_hours = $request->input('working_hours');
         // $restaurant->profileimage = Storage::url($this->UploadImage($request));
         // $restaurant->images = explode(' ', $this->multipleUploads($request)) ;
 
@@ -136,5 +144,28 @@ class RestaurantController extends Controller
 
         return new RestaurantResource($restaurant);
 
+    }
+
+
+    public function searching(Request $request){
+        //get the request the user is passing
+
+        $search = $request->input('search');
+
+        //if you get the request, search in the model 
+
+        $restaurant = Restaurant::
+                                        where('name', 'ilike', "%" . $search . "%" )
+                                        ->orwhere('location', 'ilike', "%" . $search . "%")
+                                        ->get();
+        if($restaurant->count() > 0){
+            return $restaurant;
+        }else{
+            return response()->json([
+                "message" => "No results found"
+            ]);
+        }
+
+        
     }
 }
