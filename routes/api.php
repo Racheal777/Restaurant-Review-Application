@@ -27,6 +27,8 @@ Route::post('users/signup', [UserController::class, 'register']);
 
 Route::post('users/login', [UserController::class, 'login']);
 
+
+
 //add a restaurant
 Route::apiResource('diners', RestaurantController::class);
 
@@ -48,6 +50,10 @@ Route::apiResource('favorites', FavoriteController::class);
 
 //user route
 Route::get('user', [UserController::class, 'getUserwithReviews']);
+
+
+//logout
+Route::get('user/logout', [UserController::class, 'logout']);
 
 
 });

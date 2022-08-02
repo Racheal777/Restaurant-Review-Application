@@ -100,5 +100,29 @@ class UserController extends Controller
     }
 
 
-    
+    public function logout(User $user){
+
+        //logout functionality
+        //find the authenticated user
+       $user = Auth::user();
+
+       //get the token and save it in a variable
+       $token = $user->token();
+
+       //return $token;
+//if you find the user, revoke the token
+       if($user){
+        $token->revoke();
+        return response()->json([
+            "message" =>  "Successfully logged out ",
+            'token' => $token
+        ]);
+
+       }else{
+        return "user not found";
+       }
+
+       return $user;
+        
+    }
 }
