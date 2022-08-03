@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\FavoriteController;
-use App\Http\Controllers\RestaurantController;
-use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\RestaurantController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,3 +58,23 @@ Route::get('user/logout', [UserController::class, 'logout']);
 
 
 });
+
+//sends
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth:api')->name('verification.notice');
+
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+ 
+    return redirect('/home');
+})->middleware(['auth',  'signed'])->name('verification.verify');
+
+
+//resend emai
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+ 
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');

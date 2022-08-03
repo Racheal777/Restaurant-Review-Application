@@ -6,6 +6,7 @@ use App\Http\Resources\UserCollection;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -20,17 +21,17 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->username = $request->input('username');
         $user->password = Hash::make( $request->input('password'));
-        
-       
 
         //save the user;
         $user->save();
+
+       // event(new Registered($user));
+        event(new Registered($user));
 
         //create a token for the user
         $token = $user->createToken($user->name);
         $object = $token->accessToken;
        
-
         return response()->json([
             'user' => new UserResource($user),
             'Access Token' => $object,
@@ -41,27 +42,36 @@ class UserController extends Controller
 
     //login function
 
-    public function login(Request $request){
+    public function login(Request $request, User $user){
         $loginDetails = [
             'email' => $request->email,
             'password' => $request->password
         ];
 
         //if user attempt to login, and their details matches with what is in the db
+        //check if a user is verified
         //create a token for them
-        if(auth()->attempt($loginDetails)){
-            $user = auth()->user();
-            $token = auth()->user()->createToken($user->username);
+        if(auth()->attempt($loginDetails, $request->get('remember'))){
 
-            // $csrftoken = $request->session()->token();
- 
-            // $csrftoken = csrf_token();
-
-            return response()->json([
-                'user' => new UserResource($user),
-                'access token' => $token->accessToken,
-                //'csrf' => $csrftoken
-            ]);
+            if(!auth()->user()->hasVerifiedEmail()){
+                $user = User::where('email', $request->email)->first();
+                event(new Registered($user));
+                return response()->json([
+                    "message" => "Please check email for a verification link"
+                ]);
+            } else {
+        
+                $user = auth()->user();
+                $token = $user->createToken($user->username);
+    
+                return response()->json([
+                    'user' => new UserResource($user),
+                    'access token' => $token->accessToken,
+                    'remember-me' => $request->get('remember')
+                    //'csrf' => $csrftoken
+                ]);
+            }
+           
         }else{
             return response()->json([
                 'message' => 'Incorrect Credentials',
@@ -73,6 +83,11 @@ class UserController extends Controller
 
     //fetch a particular user will all their reviews
     public function getUserwithReviews(User $user){
+
+        $user = Auth::user();
+
+       // \Log::debug($user);
+        return new UserResource($user);
        // $user = User::all();
         //$users = auth('api')->user();
 
@@ -85,8 +100,7 @@ class UserController extends Controller
     //    }
 
     //check the authenticated user and return all their resources
-    $user = Auth::user();
-    return new UserResource($user);
+   
       // $loggedinUser = auth('api')->user();
 
        //return $loggedinUser;
@@ -100,10 +114,10 @@ class UserController extends Controller
     }
 
 
-    public function logout(User $user){
+    public function logout(Request $request){
 
-        //logout functionality
-        //find the authenticated user
+       // logout functionality
+       // find the authenticated user
        $user = Auth::user();
 
        //get the token and save it in a variable
@@ -122,7 +136,12 @@ class UserController extends Controller
         return "user not found";
        }
 
-       return $user;
-        
+              
+ 
+    
+
     }
+
+
+
 }
