@@ -26,7 +26,7 @@ class UserController extends Controller
         $user->save();
 
        // event(new Registered($user));
-        event(new Registered($user));
+        //event(new Registered($user));
 
         //create a token for the user
         $token = $user->createToken($user->name);
