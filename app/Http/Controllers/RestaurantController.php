@@ -83,7 +83,7 @@ class RestaurantController extends Controller
         $diner->website_url = $request->input('website_url');
         $diner->category = $request->input('category');
         $diner->working_hours = $request->input('working_hours');
-        $diner->profileimage = $url;
+        //$diner->profileimage = $url;
         // $diner->profileimage = Storage::url($this->UploadImage($request));
         //$diner->images = explode(' ', $this->multipleUploads($request)) ;
 
