@@ -53,13 +53,13 @@ class UserController extends Controller
         //create a token for them
         if(auth()->attempt($loginDetails, $request->get('remember'))){
 
-            if(!auth()->user()->hasVerifiedEmail()){
-                $user = User::where('email', $request->email)->first();
-                event(new Registered($user));
-                return response()->json([
-                    "message" => "Please check email for a verification link"
-                ]);
-            } else {
+            // if(!auth()->user()->hasVerifiedEmail()){
+            //     $user = User::where('email', $request->email)->first();
+            //     event(new Registered($user));
+            //     return response()->json([
+            //         "message" => "Please check email for a verification link"
+            //     ]);
+            // } else {
         
                 $user = auth()->user();
                 $token = $user->createToken($user->username);
@@ -70,7 +70,7 @@ class UserController extends Controller
                     'remember-me' => $request->get('remember')
                     //'csrf' => $csrftoken
                 ]);
-            }
+            
            
         }else{
             return response()->json([
