@@ -47,7 +47,7 @@ class RestaurantController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $fileName = Str::random(25) . '.' . $file->getClientOriginalExtension();
-            $folder = 'storage/uploads/profile/avatars';
+            $folder = 'public/uploads/profile';
             // if (App::environment(['staging', 'production', 'development'])) {
             //     $folder = 'uploads/profileimages';
             // }
@@ -55,17 +55,18 @@ class RestaurantController extends Controller
             $diner->profileimage = $url;
             
         }
-
+        $imageName = '';
         if ($request->hasFile('images')) {
             $images = $request->file('images');
 
             foreach($images as $image){
             $fileName = Str::random(25) . '.' . $image->getClientOriginalExtension();
-            $folder = 'storage/uploads/images';
+            $folder = 'public/uploads/images';
             // if (App::environment(['staging', 'production'])) {
             //     $folder = 'uploads/images';
             // }
-            $urls = $this->uploadMutiple($image, $folder, $fileName);
+            $imageName = $fileName;
+            $urls = $this->uploadMutiple($image, $folder, $imageName);
             }
            
             $diner->images = explode(' ', $urls);
