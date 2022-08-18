@@ -14,9 +14,8 @@ class RestaurantCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return 
-    [
-        'data' => RestaurantResource::collection($this->collection)
-    ];
+        return [
+            'data' => RestaurantResource::collection($this->collection)
+        ];
     }
 }
