@@ -1,11 +1,40 @@
 <?php
 
 namespace App\Traits;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 trait ImageUploadTrait
 {
+
+    public function uploadSingle(UploadedFile $uploadedFile, $folder = null, $filename = null, $disk = 'local')
+     {
+         $name = $filename ?? Str::random(25). '.'. $uploadedFile->getClientOriginalExtension();
+         $options = [
+             'visibility' => 'public'
+         ];
+         $file = Storage::putFileAs($folder, $uploadedFile, $name, $options);
+         return $file;
+     }
+
+
+     public function uploadMutiple(UploadedFile $uploadedFile, $folder = null, $filename = null, $disk = 'local')
+     {
+         $name = $filename ?? Str::random(25). '.'. $uploadedFile->getClientOriginalExtension();
+         $options = [
+             'visibility' => 'public'
+         ];
+         $file = Storage::putFileAs($folder, $uploadedFile, $name, $options);
+         return $file;
+     }
+
+
+    
+
+
 
     public function UploadImage(Request $request){
 
@@ -24,7 +53,9 @@ trait ImageUploadTrait
             $new_name = rand() . '.' .$image->getClientOriginalExtension();
             $image->move(public_path('/uploads/profileimages'),$new_name);
 
+            dd($new_name);
             return $new_name;
+
         }else{
             return response()->json('Image is empty');
         }

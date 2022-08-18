@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\RestaurantCollection;
+use App\Models\Review;
 use App\Models\Restaurant;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Traits\ImageUploadTrait;
+use Illuminate\Support\Facades\App;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\RestaurantResource;
-use App\Http\Resources\UserResource;
-use App\Models\Review;
+use App\Http\Resources\RestaurantCollection;
 
 class RestaurantController extends Controller
 
@@ -38,9 +40,39 @@ class RestaurantController extends Controller
     public function store(Request $request)
     {
         // return "helllo";
-        //
-        
         $diner = new Restaurant();
+        //
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = Str::random(25) . '.' . $file->getClientOriginalExtension();
+            $folder = 'public/uploads/profile/avatars';
+            // if (App::environment(['staging', 'production', 'development'])) {
+            //     $folder = 'uploads/profileimages';
+            // }
+            $url = $this->uploadSingle($file, $folder, $fileName);
+            $diner->profileimage = $url;
+            
+        }
+
+        if ($request->hasFile('images')) {
+            $images = $request->file('images');
+
+            foreach($images as $image){
+            $fileName = Str::random(25) . '.' . $image->getClientOriginalExtension();
+            $folder = 'public/uploads/images';
+            if (App::environment(['staging', 'production'])) {
+                $folder = 'uploads/images';
+            }
+            $urls = $this->uploadMutiple($image, $folder, $fileName);
+            }
+           
+            $diner->images = explode(' ', $urls);
+            
+        }
+
+
+        
+        
 
        // dd($diner->image);
 
@@ -51,8 +83,9 @@ class RestaurantController extends Controller
         $diner->website_url = $request->input('website_url');
         $diner->category = $request->input('category');
         $diner->working_hours = $request->input('working_hours');
-        $diner->profileimage = Storage::url($this->UploadImage($request));
-        $diner->images = explode(' ', $this->multipleUploads($request)) ;
+        $diner->profileimage = $url;
+        // $diner->profileimage = Storage::url($this->UploadImage($request));
+        //$diner->images = explode(' ', $this->multipleUploads($request)) ;
 
         $diner->save();
 
