@@ -42,10 +42,12 @@ class RestaurantController extends Controller
         // return "helllo";
         $diner = new Restaurant();
         //
+        $url = '';
+        $urls = '';
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $fileName = Str::random(25) . '.' . $file->getClientOriginalExtension();
-            $folder = 'public/uploads/profile/avatars';
+            $folder = 'storage/uploads/profile/avatars';
             // if (App::environment(['staging', 'production', 'development'])) {
             //     $folder = 'uploads/profileimages';
             // }
@@ -59,10 +61,10 @@ class RestaurantController extends Controller
 
             foreach($images as $image){
             $fileName = Str::random(25) . '.' . $image->getClientOriginalExtension();
-            $folder = 'public/uploads/images';
-            if (App::environment(['staging', 'production'])) {
-                $folder = 'uploads/images';
-            }
+            $folder = 'storage/uploads/images';
+            // if (App::environment(['staging', 'production'])) {
+            //     $folder = 'uploads/images';
+            // }
             $urls = $this->uploadMutiple($image, $folder, $fileName);
             }
            
