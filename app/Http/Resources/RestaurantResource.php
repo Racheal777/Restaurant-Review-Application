@@ -27,7 +27,7 @@ class RestaurantResource extends JsonResource
             'category' => $this->category,
             'working_hours' => $this->working_hours,
             'about' => $this->about,
-            'profile image' => $this->profileimage,
+            'profile_image' => $this->profileimage,
             'imagesss' => $this->images,
             "reviews" => $this->reviews,
            
