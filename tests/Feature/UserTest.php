@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Passport\Passport;
 
 class UserTest extends TestCase
 {
@@ -78,6 +79,7 @@ class UserTest extends TestCase
             'password' => 'password',
         ];
 
+        //Passport::actingAs($user);
         $this->actingAs($user);
       
         //Post method, the route path and the data its getting

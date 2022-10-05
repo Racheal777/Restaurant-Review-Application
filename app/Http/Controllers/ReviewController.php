@@ -93,13 +93,38 @@ class ReviewController extends Controller
     public function update(Request $request, Review $review)
     {
         //
-        $review->comment = $request->input('comment');
-        $review->ratings = $request->input('ratings');
-        $review->restaurant_id = $request->input('restaurant_id');
 
-        $review->save();
+        $input = [
+            'comment' => $request->input('comment'),
+            'ratings' => $request->input('ratings')
+        ];
 
-        return new ReviewResource($review->fresh());
+
+        $data = $request->hasAny(['comment', 'ratings']);
+
+        if($data){
+            if($input['comment']){
+                $review->update(['comment' => $input['comment']]);
+            }else{
+                $review->comment = $review->comment;
+            }
+
+            if($input['ratings']){
+                $review->update(['ratings' => $input['ratings']]);
+            }else{
+                $review->ratings = $review->ratings;
+            }
+
+            $review->save();
+            return new ReviewResource($review->fresh());
+        }
+        // $review->comment = $request->input('comment');
+        // $review->ratings = $request->input('ratings');
+        // //$review->restaurant_id = $request->input('restaurant_id');
+
+        // $review->save();
+
+       
 
     }
 

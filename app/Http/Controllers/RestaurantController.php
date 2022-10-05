@@ -119,11 +119,11 @@ class RestaurantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Restaurant $restaurant, $id)
+    public function update(Request $request, Restaurant $restaurant)
     {
         //update a restaurant
        // $diner = 
-       $restaurant = Restaurant::find($id);
+       
         // $restaurant->name = $request->input('name');
         // $restaurant->about = $request->input('about');
         // $restaurant->location = $request->input('location');

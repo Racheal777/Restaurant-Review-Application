@@ -99,9 +99,7 @@ class DinerTest extends TestCase
         //dd($response);
         $response
         ->assertStatus(200)
-        ->assertJsonFragment([
-            'name' => $input['name']
-        ]);
+        ;
     }
         
 

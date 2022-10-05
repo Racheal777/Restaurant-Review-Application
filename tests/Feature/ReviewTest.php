@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Restaurant;
+use App\Models\Review;
 use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -45,8 +46,6 @@ class ReviewTest extends TestCase
 
         ];
 
-
-
         //authenticate user
         Passport::actingAs($user);
        // $this->assertAuthenticated();
@@ -55,8 +54,6 @@ class ReviewTest extends TestCase
 
         //check the request
         $response = $this->json('POST', route('reviews.store', $input));
-
-
        //  dd($response);
 
         $response
@@ -67,4 +64,45 @@ class ReviewTest extends TestCase
 
 
      }
+
+
+     /**
+      * @test
+      */
+     //update test
+     public function it_updates_a_review()
+     {
+        $review = Review::factory()->create();
+
+        $diner = Restaurant::factory()->create();
+
+       
+
+        //create the user adding the review
+        $user = User::factory()->create();
+
+        //create a review
+       
+
+
+        $input =  [
+            'comment' => 'food is great',
+            'restaurant_id' => $diner->id,
+            'user_id' => $user->id
+
+        ];  
+
+        Passport::actingAs($user);
+        $this->assertAuthenticatedAs($user);
+
+
+        $response = $this->json('PATCH', route('reviews.update', $review), $input);
+
+        $response
+        ->assertStatus(200)
+        ->assertJsonFragment([
+            'comment' => $input['comment']
+        ]);
+
+    }
 }

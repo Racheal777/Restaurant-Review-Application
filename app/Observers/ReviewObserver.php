@@ -73,7 +73,13 @@ class ReviewObserver
         $restaurant = Restaurant::find($review->restaurant_id);
         
         //get the reviews of that restaurant and pluck the ratings and change to an array
-        $restaurantRatings = $restaurant->reviews()->pluck('ratings')->toArray();
+        //check if restaurant has reviews
+        if($restaurant->reviews){
+            $restaurantRatings = $restaurant->reviews()->pluck('ratings')->toArray();
+        }else{
+            return $restaurant->reviews = 0;
+        }
+       
 
        // return $restaurantRatings;
         //calculate the sum of the ratings
