@@ -124,19 +124,93 @@ class RestaurantController extends Controller
         //update a restaurant
        // $diner = 
        $restaurant = Restaurant::find($id);
-        $restaurant->name = $request->input('name');
-        $restaurant->about = $request->input('about');
-        $restaurant->location = $request->input('location');
-        $restaurant->contact = $request->input('contact');
-        $restaurant->website_url = $request->input('website_url');
-        $restaurant->category = $request->input('category');
-        $restaurant->working_hours = $request->input('working_hours');
+        // $restaurant->name = $request->input('name');
+        // $restaurant->about = $request->input('about');
+        // $restaurant->location = $request->input('location');
+        // $restaurant->contact = $request->input('contact');
+        // $restaurant->website_url = $request->input('website_url');
+        // $restaurant->category = $request->input('category');
+        // $restaurant->working_hours = $request->input('working_hours');
         // $restaurant->profileimage = Storage::url($this->UploadImage($request));
         // $restaurant->images = explode(' ', $this->multipleUploads($request)) ;
 
-        $restaurant->save();
+        $input = [
+        'name' => $request->input('name'), 
+        'about' => $request->input('about'),
+        'location' => $request->input('location'),
+        'contact' => $request->input('contact') ,
+        'website_url' => $request->input('website_url') ,
+        'category' => $request->input('category') ,
+        // 'working_hours' => $request->input('working_hours')
+    ];
 
-        return new RestaurantResource($restaurant);
+    //dd($input);
+    $data = $request->hasAny(['name', 'about', 'location', 'contact', 'website_url', 'category', 'working_hours']);
+
+        if($data){
+           //return $data;
+           if($request->name){
+            $restaurant->update(['name' => $input['name']]);
+            
+            }else{
+               
+                $restaurant->name = $restaurant->name;
+            }
+
+           if($input['about']){
+            $restaurant->update(['about' => $input['about']]);
+           }else{
+           
+             $restaurant->about = $restaurant->about;
+           }
+
+           if($input['location']){
+            $restaurant->update(['location' => $input['location']]);
+            
+           }else{
+            $restaurant->location =  $restaurant->location;
+            
+           }
+
+           if($input['contact']){
+            $restaurant->update(['contact' => $input['contact']]);
+           
+           }else{
+             $restaurant->contact  = $restaurant->contact;
+            
+           }
+
+           if($input['category']){
+            $restaurant->update(['category' => $input['category']]);
+            
+           }else{
+              $restaurant->category = $restaurant->category;
+            
+           }
+
+           if($input['website_url']){
+            $restaurant->update(['website_url' => $input['website_url']]);
+            
+           }else{
+            
+            $restaurant->website_url = $restaurant->website_url;
+           }
+
+          
+
+            //$restaurant->update($input);
+            //$restaurant->save();
+           return new RestaurantResource($restaurant);
+        
+        }
+
+        
+        //return $restaurant->save();
+       
+        
+       
+
+       
 
     }
 

@@ -61,6 +61,7 @@ class UserController extends Controller
             //     ]);
             // } else {
         
+                //find the authenticated user
                 $user = auth()->user();
                 $token = $user->createToken($user->username);
     
