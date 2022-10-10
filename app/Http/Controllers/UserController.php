@@ -90,6 +90,7 @@ class UserController extends Controller
 
         $user = Auth::user();
         
+        
         $userFavorites = $user->favorites;
 
         return new UserFavoriteCollection($userFavorites) ;

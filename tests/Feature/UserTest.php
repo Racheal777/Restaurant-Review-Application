@@ -105,18 +105,22 @@ class UserTest extends TestCase
         //create the user
         $user = User::factory()->create();
 
-        //create a favorite
-        $favorite = Favorite::factory()->create();
+        // create a favorite
+        Favorite::factory(3)->create([
+            'user_id' => $user->id
+        ]);
 
         //authenticate the user
         Passport::actingAs($user);
 
         //get the response
         $response = $this->json('GET', route('userfavorites'));
+        // dd($response);
 
         $response
-        ->assertStatus(200);
+        ->assertStatus(200)
+        ->assertJsonCount(3, 'data');
       }
 
-      
+
 }
