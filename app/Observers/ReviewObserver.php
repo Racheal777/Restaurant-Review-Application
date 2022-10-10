@@ -42,7 +42,7 @@ class ReviewObserver
     public function deleted(Review $review)
     {
         //
-        $this->averageRatings($review);
+        // dd($this->averageRatings($review));
     }
 
     /**
@@ -67,23 +67,31 @@ class ReviewObserver
         //
     }
 
-    private function averageRatings(Review $review){
+    private function averageRatings(Review $review,){
 
         // find the restaurant being reviewed
+
+       
+        //$restaurant = Restaurant::find($review->restaurant_id);
+       // $review = Review::find($review->restaurant_id);
         $restaurant = Restaurant::find($review->restaurant_id);
         
         //get the reviews of that restaurant and pluck the ratings and change to an array
         //check if restaurant has reviews
+
+        //dd($restaurant);
         if($restaurant->reviews){
             $restaurantRatings = $restaurant->reviews()->pluck('ratings')->toArray();
         }else{
-            return $restaurant->reviews = 0;
+            return $restaurant->reviews = 1;
         }
        
 
        // return $restaurantRatings;
         //calculate the sum of the ratings
         $total = array_sum($restaurantRatings);
+
+        //dd($total);
 
         //divide the sum by the number of items to fund the average
         $average = $total/count($restaurantRatings);

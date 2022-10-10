@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\UserCollection;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\UserCollection;
+use Illuminate\Auth\Events\Registered;
+use App\Http\Resources\FavoriteResource;
+use App\Http\Resources\RestaurantResource;
+use App\Http\Resources\UserFavoriteCollection;
 
 class UserController extends Controller
 {
@@ -80,6 +83,17 @@ class UserController extends Controller
         }
     }
 
+
+    //fetch a particular user will all their favorites
+    public function getUserwithFavorites(User $user)
+    {
+
+        $user = Auth::user();
+        
+        $userFavorites = $user->favorites;
+
+        return new UserFavoriteCollection($userFavorites) ;
+    }
 
 
     //fetch a particular user will all their reviews

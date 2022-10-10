@@ -52,12 +52,15 @@ Route::apiResource('favorites', FavoriteController::class);
 //user route
 Route::get('user', [UserController::class, 'getUserwithReviews']);
 
+Route::get('userfavorites', [UserController::class, 'getUserwithFavorites'])->name('userfavorites');
 
 //logout
 Route::get('user/logout', [UserController::class, 'logout']);
 
 
 });
+
+
 
 //sends
 Route::get('/email/verify', function () {

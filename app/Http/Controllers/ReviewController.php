@@ -18,6 +18,9 @@ class ReviewController extends Controller
     public function index()
     {
         //
+        $review = Review::all();
+
+        return $review;
     }
 
     /**
@@ -137,6 +140,16 @@ class ReviewController extends Controller
     public function destroy(Review $review)
     {
         //
-        $review = $review->delete();
+        // if ($review) {
+            $review->delete();
+        // }
+        
+
+        // if($review){
+        //     return 'successfuly deleted';
+        // }else{
+        //     return 'not deleted';
+        // }
+       
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
+use App\Models\Restaurant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,8 +22,8 @@ class ReviewFactory extends Factory
             //
             'comment' => 'Food is nice',
             'ratings' => 5,
-            'restaurant_id' => 1,
-            'user_id' => 1
+            'restaurant_id' => Restaurant::factory(), //pasing the restaurant id by creating it
+            'user_id' => User::factory()
 
         ];
     }

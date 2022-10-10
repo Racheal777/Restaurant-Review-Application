@@ -13,6 +13,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ReviewTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *
@@ -72,18 +73,19 @@ class ReviewTest extends TestCase
      //update test
      public function it_updates_a_review()
      {
-        $review = Review::factory()->create();
+       
 
         $diner = Restaurant::factory()->create();
 
        
-
+        //dd($diner);
         //create the user adding the review
         $user = User::factory()->create();
 
+        //dd($user);
         //create a review
        
-
+        $review = Review::factory()->create();
 
         $input =  [
             'comment' => 'food is great',
@@ -92,10 +94,11 @@ class ReviewTest extends TestCase
 
         ];  
 
+        //authenticate the user
         Passport::actingAs($user);
         $this->assertAuthenticatedAs($user);
 
-
+        //send the data with the route path
         $response = $this->json('PATCH', route('reviews.update', $review), $input);
 
         $response
@@ -104,5 +107,29 @@ class ReviewTest extends TestCase
             'comment' => $input['comment']
         ]);
 
+    }
+
+    /**
+     * @test
+     */
+
+    //delete a review
+    public function it_deletes_a_review()
+    {
+        //$diner = Restaurant::factory()->create();
+
+       
+
+        $user = User::factory()->create();
+
+        $review = Review::factory()->create();
+
+        //authenticate the user to be able to delete
+        Passport::actingAs($user);
+        $this->assertAuthenticatedAs($user);
+
+        $response = $this->json('DELETE', route('reviews.destroy', $review));
+
+        $response->assertStatus(200);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Favorite;
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
@@ -93,4 +94,29 @@ class UserTest extends TestCase
 
         
      }
+
+     /**
+      * @test
+      */
+      //function for testing a user favorites
+
+      public function it_fetches_a_user_favorites()
+      {
+        //create the user
+        $user = User::factory()->create();
+
+        //create a favorite
+        $favorite = Favorite::factory()->create();
+
+        //authenticate the user
+        Passport::actingAs($user);
+
+        //get the response
+        $response = $this->json('GET', route('userfavorites'));
+
+        $response
+        ->assertStatus(200);
+      }
+
+      
 }
