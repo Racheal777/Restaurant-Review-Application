@@ -20,6 +20,8 @@ class DinerTest extends TestCase
 
         $response = $this->json('GET', route('diners.index'));
 
+        $this->assertDatabaseCount('restaurants', 2);
+        
         $response->assertJsonCount(2, 'data');
         $response->assertStatus(200);
     }
@@ -44,6 +46,12 @@ class DinerTest extends TestCase
             'profileimage' => fake()->image()
         ];
         $response = $this->json('POST', route('diners.store'), $input);
+
+        $this->assertDatabaseCount('restaurants', 1);
+        $this->assertDatabaseHas('restaurants', [
+            'name' => $input['name']
+        ]);
+        
         $response
         ->assertStatus(200)
         ->assertJsonFragment([

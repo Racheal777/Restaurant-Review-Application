@@ -56,11 +56,20 @@ class UserTest extends TestCase
 
         $response = $this->json('POST', route('users.create', $input));
 
+        //checking the number of users created n the database
+        $this->assertDatabaseCount('users', 1);
+
+        //check if the database has the email field the email
+        $this->assertDatabaseHas('users', [
+            'email' => $input['email']
+        ]);
+
         $response
         ->assertStatus(200)
         ->assertJsonFragment([
             'name' => $input['name']
-        ]);
+        ])
+       ;
     }
 
 

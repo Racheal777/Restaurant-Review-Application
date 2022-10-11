@@ -57,6 +57,14 @@ class ReviewTest extends TestCase
         $response = $this->json('POST', route('reviews.store', $input));
        //  dd($response);
 
+       //check if the table contains the number inserted
+       $this->assertDatabaseCount('reviews', 1);
+
+       //check if table column has exactly what you just sent
+       $this->assertDatabaseHas('reviews', [
+        'user_id' => $input['user_id']
+       ]);
+       
         $response
         ->assertStatus(201)
         ->assertJsonFragment([
