@@ -1,0 +1,520 @@
+openapi: 3.0.0
+info:
+  title: Restaurant Review API
+  description: Restaurant Review Application built by Racheal
+  contact:
+   name: Racheal Kuranchie
+   url: https://linktr.ee/rachealkuranchie
+  version: 1.0.0  
+servers:
+ - url: https://restaurant-reviewz.herokuapp.com/api
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - BearerAuth: []
+tags:
+- name: Diner
+  description: Everything about your Restaurants
+- name: User
+  description: Everything about your Users
+- name: Review
+  description: Everything about your User's Reviews
+- name: Favorite
+  description: Everything about your User's Reviews
+paths:
+   /diners:
+    description: Restaurant resource
+    get:
+     tags:
+      - Diner
+     description: Operation to fetch all restaurant data
+     responses:  
+      200:  
+        description: Successful Response 
+        content:   
+          application/json:  
+           schema:  
+            type: array 
+            items: 
+             properties:
+              Restaurant ID:
+               type: integer
+               example: 1
+              name:
+               type: string
+               example: The mix restaurant
+              contact:
+               type: string
+               example: 0542802959
+              website_url:
+               type: string
+               example: www.excober.com
+              location: 
+               type: string
+               example: East Legon
+              average_ratings:
+               type: integer
+               example: 0
+              category:
+               type: string
+               example:  All
+              working_hours:
+               type: string
+               example: null
+              about:
+               type: string
+               example: Come and have an experience
+              profile image:
+               type: string
+               example: /storage/2108985171.jpg
+              imagesss:
+               type: string
+               example: [/storage/773438779.jpg",/storage/441606909.jpg",]
+              reviews:
+               type: array
+               example : []
+    post:
+      tags:
+      - Diner
+      description: Operation to add a new restaurant data
+      requestBody: 
+       content:
+         application/json:
+          schema:
+           type: object
+           properties:
+            Restaurant ID:
+             type: integer
+             example: 1
+            name:
+             type: string
+             example: The mix restaurant
+            contact:
+             type: string
+             example: 0542802959
+            website_url:
+             type: string
+             example: www.excober.com
+            location: 
+             type: string
+             example: East Legon
+            average_ratings:
+             type: integer
+             example: 0
+            category:
+             type: string
+             example:  All
+            working_hours:
+             type: string
+             example: null
+            about:
+             type: string
+             example: Come and have an experience
+            profile image:
+             type: string
+             example: /storage/2108985171.jpg
+            imagesss:
+             type: string
+             example: [/storage/773438779.jpg",/storage/441606909.jpg",]
+      responses:  
+        201:  
+          description: Record successfully added  
+   /diners/{id}: 
+    description: Restaurant resource
+    get:
+     tags:
+      - Diner
+     description: Operation to fetch a restaurant data
+     parameters:  
+      - in: path
+        name: id
+        required: true  
+        schema :
+         type : integer
+         example : 1
+     responses:  
+      200:  
+        description: Successful Response  
+        content:   
+          application/json:  
+           schema:  
+            type: array 
+            items: 
+             properties:
+              Restaurant ID:
+               type: integer
+               example: 1
+              name:
+               type: string
+               example: The mix restaurant
+              contact:
+               type: string
+               example: 0542802959
+              website_url:
+               type: string
+               example: www.excober.com
+              location: 
+               type: string
+               example: East Legon
+              average_ratings:
+               type: integer
+               example: 0
+              category:
+               type: string
+               example:  All
+              working_hours:
+               type: string
+               example: null
+              about:
+               type: string
+               example: Come and have an experience
+              profile image:
+               type: string
+               example: /storage/2108985171.jpg
+              imagesss:
+               type: string
+               example: [/storage/773438779.jpg",/storage/441606909.jpg",]
+              reviews:
+               type: array
+               example : []
+    put:
+      tags:
+      - Diner
+      description: Operation to update restaurant data
+      parameters:  
+      - in: path
+        name: id
+        required: true  
+        schema :
+         type : integer
+         example : 1
+      requestBody: 
+       content:
+         application/json:
+          schema:
+           type: object
+           properties:
+            Restaurant ID:
+             type: integer
+             example: 1
+            name:
+             type: string
+             example: The mix restaurant
+            contact:
+             type: string
+             example: 0542802959
+            website_url:
+             type: string
+             example: www.excober.com
+            location: 
+             type: string
+             example: East Legon
+            average_ratings:
+             type: integer
+             example: 0
+            category:
+             type: string
+             example:  All
+            working_hours:
+             type: string
+             example: null
+            about:
+             type: string
+             example: Come and have an experience
+            profile image:
+             type: string
+             example: /storage/2108985171.jpg
+            imagesss:
+             type: string
+             example: [/storage/773438779.jpg",/storage/441606909.jpg",]
+      responses:  
+        201:  
+          description: Record successfully updated
+    delete:
+      tags:
+      - Diner
+      description: Operation to delete restaurant data
+      parameters:  
+      - in: path
+        name: id
+        required: true  
+        schema :
+         type : integer
+         example : 1
+      responses:  
+        201:  
+          description: Record successfully deleted
+   /diner: 
+    description: Restaurant Search Resource
+    get:
+     tags:
+      - Diner
+     description: Operation to search a restaurant with name or location
+     parameters:  
+      - in: query
+        name: search
+        required: true  
+        schema :
+         type : string
+         example : mix
+     responses:  
+      200:  
+        description: Successful Response  
+        content:   
+          application/json:  
+           schema:  
+            type: array 
+            items: 
+             properties:
+              Restaurant ID:
+               type: integer
+               example: 1
+              name:
+               type: string
+               example: The mix restaurant
+              contact:
+               type: string
+               example: 0542802959
+              website_url:
+               type: string
+               example: www.excober.com
+              location: 
+               type: string
+               example: East Legon
+              average_ratings:
+               type: integer
+               example: 0
+              category:
+               type: string
+               example:  All
+              working_hours:
+               type: string
+               example: null
+              about:
+               type: string
+               example: Come and have an experience
+              profile image:
+               type: string
+               example: /storage/2108985171.jpg
+              imagesss:
+               type: string
+               example: [/storage/773438779.jpg",/storage/441606909.jpg",]
+              reviews:
+               type: array
+               example : []
+   /users/signup:
+    description: Users resource
+    post:
+     tags:
+      - User
+     description: Operation to add a users data
+     requestBody: 
+       content:
+         application/json:
+          schema:
+           type: object
+           properties:
+            name:
+             type: string
+             example: John Doe
+            username:
+             type: string
+             example: john2020
+            email:
+             type: string
+             example: johndoe@gmail.com
+            password:
+             type: string
+             example: password123
+            password_confirmation: 
+             type: string
+             example: password123
+     responses:  
+        201:  
+          description: Record successfully added
+        400: 
+           description: BadRequest
+        401: 
+          description: Unauthorized
+        403: 
+          description: Forbidden
+        404: 
+          description: NotFound
+        500: 
+          description: InternalServerError,
+   /users/login:
+    description: Users resource
+    post:
+     tags:
+      - User
+     description: Operation to log a user to the app
+     requestBody: 
+       content:
+         application/json:
+          schema:
+           type: object
+           properties:
+            email:
+             type: string
+             example: johndoe@gmail.com
+            password:
+             type: string
+             example: password123
+     responses:  
+        200:  
+          description: User has been successfully loggedin
+        400:
+          description: Invalid username/password supplied
+   /user/logout:
+    description: User Logout
+    get:
+     tags:
+      - User
+     description: Operation to logout a user
+     parameters:  
+      - in: query
+        name: user_id
+        required: true  
+        schema :
+         type : integer
+         example : 1
+     responses:  
+      200:  
+        description: Successful Response 
+   /user:
+    description: User resource
+    get:
+     tags:
+      - User
+     description: Operation to fetch a user with their reviews and favorites
+     responses:  
+      200:  
+        description: Successful Response  
+        content:
+          application/json:  
+           schema:  
+            type: array 
+            items: 
+             properties:
+              User_id:
+               type: integer
+               example: 1
+              name:
+               type: string
+               example: John Doe
+              username:
+               type: string
+               example: john2020
+              email:
+               type: string
+               example: johndoe@gmail.com
+              reviews:
+               type: array
+               example : []
+              favorites: 
+               type: array
+               example: []
+   /reviews:
+    description: Reviews resource
+    post:
+     tags:
+      - Review
+     description: Operation to add a users review to a restaurant
+     requestBody: 
+       content:
+         application/json:
+          schema:
+           type: object
+           properties:
+            coment:
+             type: string
+             example: Great food, good customer serviice
+            ratings:
+             type: integer
+             example: 5
+            restaurant_id:
+             type: integer
+             example: 1
+     responses:  
+        201:  
+          description: Record successfully added
+    put:
+     tags:
+      - Review
+     description: Operation to update a users review to a restaurant
+     parameters:  
+      - in: query
+        name: review_id
+        required: true  
+        schema :
+         type : integer
+         example : 1
+     requestBody: 
+       content:
+         application/json:
+          schema:
+           type: object
+           properties:
+            coment:
+             type: string
+             example: Great food, good customer serviice
+            ratings:
+             type: integer
+             example: 4
+            restaurant_id:
+             type: integer
+             example: 1
+     responses:  
+        200:  
+          description: Record successfully updated
+    delete:
+      tags:
+      - Review
+      description: Operation to delete a Review
+      parameters:  
+      - in: query
+        name: review_id
+        required: true  
+        schema :
+         type : integer
+         example : 1
+      responses:  
+        200:  
+          description: Record successfully deleted
+   /favorites:
+    description: Favorite resource
+    post:
+     tags:
+      - Favorite
+     description: Operation to add a restaurant as favorite
+     requestBody: 
+       content:
+         application/json:
+          schema:
+           type: object
+           properties:
+            restaurant_id:
+             type: integer
+             example: 1
+     responses:  
+        201:  
+          description: Record successfully added
+    delete:
+      tags:
+      - Favorite
+      description: Operation to delete a Review
+      parameters:  
+      - in: query
+        name: favorite_id
+        required: true  
+        schema :
+         type : integer
+         example : 1
+      responses:  
+        200:  
+          description: Record successfully deleted
+ 
+   
