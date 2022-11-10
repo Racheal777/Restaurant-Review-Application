@@ -56,13 +56,7 @@ class UserController extends Controller
         //create a token for them
         if(auth()->attempt($loginDetails, $request->get('remember'))){
 
-            // if(!auth()->user()->hasVerifiedEmail()){
-            //     $user = User::where('email', $request->email)->first();
-            //     event(new Registered($user));
-            //     return response()->json([
-            //         "message" => "Please check email for a verification link"
-            //     ]);
-            // } else {
+           
         
                 //find the authenticated user
                 $user = auth()->user();
@@ -104,28 +98,8 @@ class UserController extends Controller
 
        // \Log::debug($user);
         return new UserResource($user);
-       // $user = User::all();
-        //$users = auth('api')->user();
-
-    //    $user = Auth::user();
-    //    //$user = Auth::check();
-    //    if($user){
-    //     return $user;
-    //    }else{
-    //     return 'user not authenticated';
-    //    }
-
-    //check the authenticated user and return all their resources
+      
    
-      // $loggedinUser = auth('api')->user();
-
-       //return $loggedinUser;
-
-    //    if($loggedinUser){
-    //     //$user = User::find($loggedinUser->id);
-    //     return new UserResource($loggedinUser);
-    //    }
-
         
     }
 
