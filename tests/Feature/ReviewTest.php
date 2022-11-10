@@ -81,16 +81,12 @@ class ReviewTest extends TestCase
      //update test
      public function it_updates_a_review()
      {
-       
 
         $diner = Restaurant::factory()->create();
 
-       
-        //dd($diner);
         //create the user adding the review
         $user = User::factory()->create();
 
-        //dd($user);
         //create a review
        
         $review = Review::factory()->create();
